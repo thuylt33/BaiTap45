@@ -1,6 +1,6 @@
 package testmaster.seleniumdemo;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -24,7 +24,9 @@ public class TimKiemLazada {
 
 	@Before
 	public void InitTest() {
-		driver = new FirefoxDriver();
+		
+		System.setProperty("webdriver.chrome.driver", "D:\\Setup\\Eclipse\\chromedriver.exe");
+		driver = new ChromeDriver();
 		driver.get("https://www.lazada.vn/#");
 		driver.manage().window().maximize();
 		this.TimKiemLazadaPage = new lazada_page(this.driver);
@@ -55,7 +57,9 @@ public class TimKiemLazada {
 	@Test
 	//bai 3- 2.	Khi thực hiện tìm kiếm hãy chắc chắn rằng tất cả các kết quả phải có chứa từ khóa
 	public void Check_MailTonTai() throws InterruptedException {
-        String keyTimKiem = "Áo thun trơn nữ form rộng phong cách hàn quốc vải dày mịn Thời trang (xám)"   ;
+        //String keyTimKiem = "Áo thun trơn nữ form rộng phong cách hàn quốc vải dày mịn Thời trang (xám)"   ;
+        String keyTimKiem = "áo"   ;
+
 		TimKiemLazadaPage.txtTimKiem.sendKeys(keyTimKiem);
 		TimKiemLazadaPage.bntTimKiem.click();
 		   int k = 0;
@@ -72,9 +76,9 @@ public class TimKiemLazada {
 
                    k++;
                    System.out.println(k + "STT   " + listResult.getText());
+                   //check các kết quả phải có chứa từ khóa
 
-                   listResult.getText().contentEquals(keyTimKiem);
-
+                   assertTrue(listResult.getText().toLowerCase().contains(keyTimKiem.toLowerCase()));
                }
 //Click nexxt page
 
